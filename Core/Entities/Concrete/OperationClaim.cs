@@ -2,10 +2,6 @@
 {
     public class OperationClaim:IEntity
     {
-        public OperationClaim()
-        {
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
     }

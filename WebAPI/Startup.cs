@@ -1,7 +1,9 @@
 using Business.Abstract;
 using Business.Concrete;
-using Core.Utilities.IOC;
-using Core.Utilities.Security.Encryprion;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using Core.Utilities.IoC;
+using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -35,15 +37,15 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //autofac,Ninject,CastleWinder, StructureMap,ÞightInject,DryInject----Ioc Container 
-            //AOP 
-            
+            //AOP
+            //Autofac, Ninject,CastleWindsor, StructureMap, LightInject, DryInject -->IoC Container
+            //AOP
+            //Postsharp
             services.AddControllers();
-
-
-            //  services.AddSingleton<IProductService,ProductManager>();
+            //services.AddSingleton<IProductService,ProductManager>();
             //services.AddSingleton<IProductDal, EfProductDal>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
@@ -61,12 +63,14 @@ namespace WebAPI
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                     };
                 });
-            
-            ServiceTool.Create(services);
+
+            services.AddDependencyResolvers(new ICoreModule[] {
+               new CoreModule()
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -86,6 +90,7 @@ namespace WebAPI
             {
                 endpoints.MapControllers();
             });
+          
         }
     }
 }

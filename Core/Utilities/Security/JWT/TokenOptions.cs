@@ -12,5 +12,3 @@ namespace Core.Utilities.Security.JWT
         public string SecurityKey { get; set; }
     }
 }
-
-//ServiceTool.Create(services);

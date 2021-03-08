@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Core.Utilities.Security.JWT
 {
-    public  interface ITokenHelper
+    public interface ITokenHelper
     {
         AccessToken CreateToken(User user, List<OperationClaim> operationClaims);
     }
 }
+
+//23.05 Dersteyiz
